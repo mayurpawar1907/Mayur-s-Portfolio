@@ -1,1 +1,17 @@
-@import "tailwindcss";
+@import "tailwindcss";.ProseMirror {
+  outline: none;
+  min-height: 100%;
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+.ProseMirror p {
+  margin: 0;
+  padding: 0;
+}
+.toolbar-btn {
+  @apply bg-[#2e2e3f] px-2 py-1 rounded hover:bg-cyan-700;
+}
+.action-btn {
+  @apply bg-[#2e2e3f] hover:bg-cyan-700 px-4 py-2 rounded shadow;
+}

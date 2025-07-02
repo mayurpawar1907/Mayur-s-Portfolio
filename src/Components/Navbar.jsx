@@ -29,6 +29,8 @@ function Navbar() {
           <li><NavLink to="/skills" className={navStyle}>Skills</NavLink></li>
           <li><NavLink to="/portfolio" className={navStyle}>Portfolio</NavLink></li>
           <li><NavLink to="/contact" className={navStyle}>Contact</NavLink></li>
+          <li><NavLink to="/notes" className={navStyle}>Notes</NavLink></li>
+
         </ul>
 
         {/* Mobile Icon */}
