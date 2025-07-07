@@ -6,7 +6,7 @@ import TextStyle from "@tiptap/extension-text-style";
 import Color from "@tiptap/extension-color";
 import FontFamily from "@tiptap/extension-font-family";
 import { motion, AnimatePresence } from "framer-motion";
-
+import { Link } from "react-router-dom";
 
 // Custom Button Style
 const buttonBase = "px-3 py-1 rounded shadow transition-all duration-200";
@@ -102,18 +102,29 @@ function NotesPage() {
   };
 
   const handleSave = () => {
-    const html = editor?.getHTML();
-    if (!html || html === "<p></p>") {
+    const text = editor?.getText();
+    if (!text || text.trim() === "") {
       setShowTooltip(true);
       setTimeout(() => setShowTooltip(false), 2000);
       return;
     }
-    const blob = new Blob([html], { type: "text/html;charset=utf-8" });
-    const a = document.createElement("a");
-    a.href = URL.createObjectURL(blob);
-    a.download = "note.html";
-    a.click();
-    URL.revokeObjectURL(a.href);
+
+   const note = {
+id: Math.floor(Math.random() * 90) + 10,
+ // Generates 4-digit ID
+
+  title: `Note ${new Date().toLocaleString()}`,
+  content: text,
+  date: new Date().toISOString().split("T")[0], // 👈 Add this
+};
+
+
+    const saved = JSON.parse(localStorage.getItem("saved_notes") || "[]");
+    saved.push(note);
+    localStorage.setItem("saved_notes", JSON.stringify(saved));
+
+    editor.chain().focus().clearContent().run();
+    alert("✅ Note saved successfully!");
   };
 
   const handleOpen = (e) => {
@@ -150,6 +161,9 @@ function NotesPage() {
               Open
               <input type="file" accept=".html" className="hidden" ref={fileInputRef} onChange={handleOpen} />
             </label>
+            <Link to="/saved" className={`${buttonBase} bg-cyan-700 hover:bg-cyan-800 text-white`}>
+              View Saved
+            </Link>
           </div>
         </div>
 

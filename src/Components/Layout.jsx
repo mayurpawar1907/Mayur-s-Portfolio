@@ -1,12 +1,26 @@
-import React from "react";
+import  { useEffect, useState } from "react";
 import Navbar from "./Navbar";
-import { Outlet } from "react-router-dom";
+import { Outlet, useLocation, useNavigate } from "react-router-dom";
 
 function Layout() {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  useEffect(() => {
+    const loggedIn = localStorage.getItem("isAuthenticated") === "true";
+    setIsAuthenticated(loggedIn);
+
+    const protectedPaths = ["/notes", "/saved"];
+    if (!loggedIn && protectedPaths.includes(location.pathname)) {
+      navigate("/login");
+    }
+  }, [location.pathname, navigate]);
+
   return (
     <div>
-      <Navbar />  {/* ✅ Always shows */}
-      <Outlet />  {/* ✅ Replaced by Firstpage, About, etc. */}
+      <Navbar isAuthenticated={isAuthenticated} setIsAuthenticated={setIsAuthenticated} />
+      <Outlet />
     </div>
   );
 }

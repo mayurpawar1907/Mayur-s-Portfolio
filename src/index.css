@@ -15,3 +15,102 @@
 .action-btn {
   @apply bg-[#2e2e3f] hover:bg-cyan-700 px-4 py-2 rounded shadow;
 }
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@keyframes pulse-slow {
+  0%, 100% {
+    box-shadow: 0 0 25px #00f0ff88, 0 0 50px #00f0ff44;
+  }
+  50% {
+    box-shadow: 0 0 50px #00f0ffcc, 0 0 80px #00f0ffaa;
+  }
+}
+.animate-pulse-slow {
+  animation: pulse-slow 3s ease-in-out infinite;
+}
+@keyframes pulse-slow {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow: 0 0 15px #00f0ff33, 0 0 30px #00f0ff22;
+  }
+  50% {
+    transform: scale(1.05);
+    box-shadow: 0 0 25px #00f0ffaa, 0 0 40px #00f0ff88;
+  }
+}
+.animate-pulse-slow {
+  animation: pulse-slow 2.5s infinite ease-in-out;
+}
+@keyframes pulse-slow {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow: 0 0 15px #00f0ff33, 0 0 30px #00f0ff22;
+  }
+  50% {
+    transform: scale(1.05);
+    box-shadow: 0 0 25px #00f0ffaa, 0 0 40px #00f0ff88;
+  }
+}
+.animate-pulse-slow {
+  animation: pulse-slow 2.5s infinite ease-in-out;
+}
+
+@keyframes pulse-fast {
+  0%, 100% {
+    transform: scale(1);
+    text-shadow: 0 0 10px #00f0ffaa;
+  }
+  50% {
+    transform: scale(1.05);
+    text-shadow: 0 0 25px #00f0ffff;
+  }
+}
+.animate-pulse-fast {
+  animation: pulse-fast 1.6s ease-in-out infinite;
+}
+@keyframes pulse-slow {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow: 0 0 15px #00f0ff33, 0 0 30px #00f0ff22;
+  }
+  50% {
+    transform: scale(1.06);
+    box-shadow: 0 0 25px #00f0ffaa, 0 0 40px #00f0ff88;
+  }
+}
+.animate-pulse-slow {
+  animation: pulse-slow 2.5s infinite ease-in-out;
+}
+@keyframes pulse-slow {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow: 0 0 15px #00f0ff33, 0 0 30px #00f0ff22;
+  }
+  50% {
+    transform: scale(1.06);
+    box-shadow: 0 0 25px #00f0ffaa, 0 0 40px #00f0ff88;
+  }
+}
+.animate-pulse-slow {
+  animation: pulse-slow 2.5s infinite ease-in-out;
+}
+@keyframes pulse-slow {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow: 0 0 15px #00f0ff33, 0 0 30px #00f0ff22;
+  }
+  50% {
+    transform: scale(1.06);
+    box-shadow: 0 0 25px #00f0ffaa, 0 0 40px #00f0ff88;
+  }
+}
+.animate-pulse-slow {
+  animation: pulse-slow 2.5s infinite ease-in-out;
+}
+
+
+
+
+
+

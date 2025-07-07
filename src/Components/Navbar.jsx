@@ -1,23 +1,34 @@
-import React, { useState } from "react";
-import { NavLink } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { NavLink, useNavigate } from "react-router-dom";
 import { FiMenu, FiX } from "react-icons/fi";
 
 function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const navigate = useNavigate();
+
+  const toggleMenu = () => setIsOpen(!isOpen);
 
   const navStyle = ({ isActive }) =>
     isActive
       ? "text-cyan-400 border-b-2 border-cyan-400 pb-1"
       : "hover:text-cyan-400";
 
-  const toggleMenu = () => {
-    setIsOpen(!isOpen);
+  useEffect(() => {
+    const auth = localStorage.getItem("isAuthenticated");
+    setIsLoggedIn(auth === "true");
+  }, [localStorage.getItem("isAuthenticated")]); // re-run when auth changes
+
+  const handleLogout = () => {
+    localStorage.removeItem("isAuthenticated");
+    localStorage.removeItem("currentUser");
+    setIsLoggedIn(false);
+    navigate("/login");
   };
 
   return (
     <nav className="bg-[#1c1c2b] text-white px-6 sm:px-8 py-5 shadow-lg relative z-50">
       <div className="flex items-center justify-between">
-        {/* Logo */}
         <div className="text-2xl font-bold">
           Mayur Pawar<span className="text-cyan-400">.</span>
         </div>
@@ -29,11 +40,26 @@ function Navbar() {
           <li><NavLink to="/skills" className={navStyle}>Skills</NavLink></li>
           <li><NavLink to="/portfolio" className={navStyle}>Portfolio</NavLink></li>
           <li><NavLink to="/contact" className={navStyle}>Contact</NavLink></li>
-          <li><NavLink to="/notes" className={navStyle}>Notes</NavLink></li>
 
+          {isLoggedIn && <li><NavLink to="/notes" className={navStyle}>Notes</NavLink></li>}
+          {isLoggedIn ? (
+            <li>
+              <button
+                onClick={handleLogout}
+                className="text-red-400 hover:text-red-600 font-semibold"
+              >
+                Logout
+              </button>
+            </li>
+          ) : (
+            <>
+              <li><NavLink to="/signup" className={navStyle}>Signup</NavLink></li>
+              <li><NavLink to="/login" className={navStyle}>Login</NavLink></li>
+            </>
+          )}
         </ul>
 
-        {/* Mobile Icon */}
+        {/* Mobile Menu Toggle */}
         <div className="md:hidden text-2xl cursor-pointer" onClick={toggleMenu}>
           {isOpen ? <FiX /> : <FiMenu />}
         </div>
@@ -47,6 +73,27 @@ function Navbar() {
           <li><NavLink to="/skills" className={navStyle} onClick={toggleMenu}>Skills</NavLink></li>
           <li><NavLink to="/portfolio" className={navStyle} onClick={toggleMenu}>Portfolio</NavLink></li>
           <li><NavLink to="/contact" className={navStyle} onClick={toggleMenu}>Contact</NavLink></li>
+          {isLoggedIn && (
+            <li><NavLink to="/notes" className={navStyle} onClick={toggleMenu}>Notes</NavLink></li>
+          )}
+          {isLoggedIn ? (
+            <li>
+              <button
+                onClick={() => {
+                  handleLogout();
+                  toggleMenu();
+                }}
+                className="text-red-400 hover:text-red-600 font-semibold"
+              >
+                Logout
+              </button>
+            </li>
+          ) : (
+            <>
+              <li><NavLink to="/signup" className={navStyle} onClick={toggleMenu}>Signup</NavLink></li>
+              <li><NavLink to="/login" className={navStyle} onClick={toggleMenu}>Login</NavLink></li>
+            </>
+          )}
         </ul>
       )}
     </nav>

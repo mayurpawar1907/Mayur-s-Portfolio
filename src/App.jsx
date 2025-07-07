@@ -1,28 +1,56 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Layout from "./Components/Layout";
-import Firstpage from "./Components/Firstpage"; // Home
-import About from "./Components/About"
+import Firstpage from "./Components/Firstpage";
+import About from "./Components/About";
 import Skills from "./Components/Skills";
 import Portfolio from "./Components/Portfolio";
 import Contact from "./Components/Contact";
 import Notes from "./Components/Notes";
+import SavedNotesPage from "./Components/SavedNotesPage";
+import ViewNotePage from "./Components/ViewNotePage";
+import Signup from "./Components/Signup";
+import Login from "./Components/Login";
+import ProtectedRoute from "./Components/ProtectedRoute";
 
 function App() {
   return (
     <Router>
       <Routes>
-        {/* 👇 Parent route with Navbar + Outlet */}
         <Route path="/" element={<Layout />}>
-          {/* 👇 This is your default (home) page inside Layout */}
           <Route index element={<Firstpage />} />
-
-          {/* 👇 Other pages inside Layout */}
           <Route path="about" element={<About />} />
           <Route path="skills" element={<Skills />} />
           <Route path="portfolio" element={<Portfolio />} />
           <Route path="contact" element={<Contact />} />
-          <Route path="notes" element={<Notes />} />
+          <Route path="signup" element={<Signup />} />
+          <Route path="login" element={<Login />} />
+
+          {/* 🔐 Protected Routes */}
+          <Route
+            path="notes"
+            element={
+              <ProtectedRoute>
+                <Notes />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="saved"
+            element={
+              <ProtectedRoute>
+                <SavedNotesPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="view-note/:id"
+            element={
+              <ProtectedRoute>
+                <ViewNotePage />
+              </ProtectedRoute>
+            }
+          />
         </Route>
       </Routes>
     </Router>
