@@ -1,6 +1,6 @@
-import { FaFacebookF, FaTwitter, FaGithub, FaLinkedinIn } from 'react-icons/fa';
+import {FaInstagram , FaTwitter, FaGithub, FaLinkedinIn } from 'react-icons/fa';
 import { SiJavascript, SiReact, SiMongodb, SiNodedotjs, SiTailwindcss } from 'react-icons/si';
-import image from "../assets/Logo.png"
+import image from "../assets/Logo.png";
 
 function Firstpage() {
   return (
@@ -21,15 +21,20 @@ function Firstpage() {
 
           {/* Social Media */}
           <div className="flex justify-center md:justify-start space-x-4 mb-6">
-            <a href="#" className="bg-[#24243c] hover:bg-cyan-500 p-3 rounded-full transition"><FaFacebookF /></a>
+            <a href="#" className="bg-[#24243c] hover:bg-cyan-500 p-3 rounded-full transition"><FaInstagram /></a>
             <a href="#" className="bg-[#24243c] hover:bg-cyan-500 p-3 rounded-full transition"><FaTwitter /></a>
-            <a href="#" className="bg-[#24243c] hover:bg-cyan-500 p-3 rounded-full transition"><FaGithub /></a>
-            <a href="#" className="bg-[#24243c] hover:bg-cyan-500 p-3 rounded-full transition"><FaLinkedinIn /></a>
+            <a href="https://github.com/" className="bg-[#24243c] hover:bg-cyan-500 p-3 rounded-full transition"><FaGithub /></a>
+            <a href="https://www.linkedin.com/in/mayur-pawar-8246402b8/" className="bg-[#24243c] hover:bg-cyan-500 p-3 rounded-full transition"><FaLinkedinIn /></a>
           </div>
 
-          <button className="bg-cyan-400 text-black font-semibold px-6 py-2 rounded-full hover:bg-cyan-300 transition">
+          {/* Download Resume Button */}
+          <a
+            href="/Mayur_Pawar_Resume.pdf" 
+            download="Mayur_Pawar_Resume.pdf"
+            className="bg-cyan-400 text-black font-semibold px-6 py-2 rounded-full hover:bg-cyan-300 transition inline-block"
+          >
             Download CV
-          </button>
+          </a>
         </div>
 
         {/* Right Image */}

@@ -27,7 +27,7 @@ function Navbar() {
   };
 
   return (
-    <nav className="bg-[#1c1c2b] text-white px-6 sm:px-8 py-5 shadow-lg relative z-50">
+    <nav className="fixed top-0 left-0 w-full bg-[#1c1c2bcc] backdrop-blur-md text-white px-6 sm:px-8 py-5 shadow-lg z-50">
       <div className="flex items-center justify-between">
         <div className="text-2xl font-bold">
           Mayur Pawar<span className="text-cyan-400">.</span>
