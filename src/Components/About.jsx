@@ -23,7 +23,7 @@ const EducationInfo = () => {
   return (
     <div className="min-h-screen bg-[#0f0f1b] text-white px-6 py-16 font-sans">
       <div className="max-w-4xl mx-auto space-y-20">
-        {/* Education Section - from left */}
+        
         <motion.div
           className="text-center"
           initial="hidden"

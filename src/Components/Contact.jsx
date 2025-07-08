@@ -1,41 +1,67 @@
 import React, { useState } from "react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { FiSend } from "react-icons/fi";
 import emailjs from "emailjs-com";
 
 const Contact = () => {
   const [formData, setFormData] = useState({ name: "", email: "", message: "" });
+  const [tooltip, setTooltip] = useState(null); // Tooltip state
 
   const handleChange = (e) => {
     setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
+  const showTooltip = (msg, type) => {
+    setTooltip({ msg, type });
+    setTimeout(() => setTooltip(null), 3000);
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // EmailJS integration
     emailjs.send(
-      "service_vn5tmti",     // Replace with your actual Service ID
-      "template_gh8mkea",    // Replace with your actual Template ID
+      "service_vn5tmti",      // ✅ Your EmailJS service ID
+      "template_gh8mkea",     // ✅ Your template ID
       formData,
-      "IYEGKtO5QQu6w-khR"      // Replace with your actual Public Key
+      "IYEGKtO5QQu6w-khR"     // ✅ Your public key
     )
     .then(() => {
-      alert("✅ Message sent successfully!");
+      showTooltip("✅ Message sent successfully!", "success");
       setFormData({ name: "", email: "", message: "" });
     })
     .catch((error) => {
       console.error("Email send error:", error);
-      alert("❌ Failed to send message. Please try again.");
+      showTooltip("❌ Failed to send message. Try again.", "error");
     });
   };
 
   return (
     <motion.div
-      className="min-h-screen w-full bg-gradient-to-br from-[#0f0f1b] via-[#1c1c2b] to-[#0f0f1b] text-white flex items-center justify-center px-2"
+      className="min-h-screen w-full bg-gradient-to-br from-[#0f0f1b] via-[#1c1c2b] to-[#0f0f1b] text-white flex items-center justify-center px-2 relative"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
     >
+      {/* ✅ Tooltip on top of the form */}
+      <AnimatePresence>
+        {tooltip && (
+          <motion.div
+            key="tooltip"
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.4 }}
+            className={`absolute top-8 z-50 px-4 py-2 rounded-xl shadow-lg text-sm font-semibold text-center max-w-xs 
+              ${tooltip.type === "success"
+                ? "bg-green-500/20 text-green-300 border border-green-400/30"
+                : "bg-red-500/20 text-red-300 border border-red-400/30"
+              } backdrop-blur-md`}
+          >
+            {tooltip.msg}
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* ✅ Form box */}
       <motion.div
         className="bg-[#1c1c2b]/60 backdrop-blur-md p-5 md:p-6 rounded-2xl shadow-[0_0_25px_#00f0ff66] w-full max-w-md border border-cyan-500/20"
         initial={{ y: 60, opacity: 0 }}

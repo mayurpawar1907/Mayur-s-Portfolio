@@ -1,17 +1,39 @@
 import React, { useState } from "react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [tooltip, setTooltip] = useState(null);
   const navigate = useNavigate();
+
+  const showTooltip = (msg, type = "info") => {
+    setTooltip({ msg, type });
+    setTimeout(() => setTooltip(null), 3000);
+  };
+
+  const isValidEmail = (email) =>
+    /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+
+  const isValidPassword = (pwd) =>
+    /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d@$!%*?&]{6,}$/.test(pwd);
 
   const handleLogin = (e) => {
     e.preventDefault();
 
     if (!email || !password) {
-      alert("⚠️ Please fill in both fields.");
+      showTooltip("⚠️ Please fill in both fields.", "warning");
+      return;
+    }
+
+    if (!isValidEmail(email)) {
+      showTooltip("⚠️ Please enter a valid email address.", "warning");
+      return;
+    }
+
+    if (!isValidPassword(password)) {
+      showTooltip("⚠️ Password must be 6+ characters with letters & numbers.", "warning");
       return;
     }
 
@@ -22,20 +44,46 @@ const Login = () => {
 
     if (foundUser) {
       localStorage.setItem("isAuthenticated", "true");
-      localStorage.setItem("currentUser", JSON.stringify(foundUser)); // ✅ Added
-      alert("✅ Login successful!");
-      navigate("/notes");
+      localStorage.setItem("currentUser", JSON.stringify(foundUser));
+      showTooltip(" Login successful!", "success");
+      setTimeout(() => navigate("/notes"), 1200);
     } else {
-      alert("❌ Invalid email or password.");
+      showTooltip(" Invalid email or password.", "error");
     }
   };
 
   return (
     <motion.div
-      className="min-h-screen flex items-center justify-center bg-[#0f0f1b] text-white p-4"
+      className="min-h-screen flex items-center justify-center bg-[#0f0f1b] text-white p-4 relative"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
     >
+      {/* ✅ Tooltip Styled Like Form */}
+      <AnimatePresence>
+        {tooltip && (
+          <motion.div
+            key="tooltip"
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.4 }}
+            className={`absolute top-8 z-50 px-4 py-2 rounded-xl text-sm font-semibold text-center shadow-md border backdrop-blur-md
+              ${
+                tooltip.type === "success"
+                  ? "bg-[#0f0f1b] border-cyan-300 text-cyan-300"
+                  : tooltip.type === "error"
+                  ? "bg-[#0f0f1b] border-cyan-300 text-cyan-300"
+                  : tooltip.type === "warning"
+                  ? "bg-[#0f0f1b] border-cyan-300 text-cyan-300"
+                  : "bg-[#0f0f1b] border-cyan-300 text-cyan-300"
+              }`}
+          >
+            {tooltip.msg}
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* ✅ Login Card */}
       <motion.div
         className="bg-[#1c1c2b] p-8 rounded-3xl shadow-[0_0_30px_#00f0ff66] w-full max-w-md"
         initial={{ y: 60, opacity: 0 }}
@@ -69,6 +117,9 @@ const Login = () => {
               className="bg-[#2e2e3f] px-4 py-2 rounded-lg outline-none text-cyan-200"
               placeholder="••••••••"
             />
+            <span className="text-xs text-cyan-500 mt-1">
+              (Min 6 chars, use both letters & numbers)
+            </span>
           </div>
 
           <motion.button
