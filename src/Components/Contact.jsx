@@ -63,7 +63,7 @@ const Contact = () => {
 
       {/* ✅ Form box */}
       <motion.div
-        className="bg-[#1c1c2b]/60 backdrop-blur-md p-5 md:p-6 rounded-2xl shadow-[0_0_25px_#00f0ff66] w-full max-w-md border border-cyan-500/20"
+        className="bg-[#1c1c2b]/60 backdrop-blur-md p-5 md:p-6 rounded-2xl shadow-[0_0_25px_#00f0ff66] w-full max-w-md border border-cyan-500/20 mt-19"
         initial={{ y: 60, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ type: "spring", stiffness: 120, damping: 14 }}

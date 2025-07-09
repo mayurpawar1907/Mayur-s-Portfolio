@@ -30,13 +30,13 @@ function Skills() {
         initial={{ opacity: 0, y: -40 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
-        className="text-4xl font-bold text-center mb-12"
-      >
-        My <span className="text-cyan-400">Skills</span>
+        className="text-4xl font-bold text-center mb-12 mt-19"
+      > 
+        My <span className="text-cyan-400 ">Skills</span>
       </motion.h2>
 
       {/* Grid */}
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-8 max-w-6xl mx-auto">
+      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-8 max-w-6xl mx-auto mt-19">
         {skills.map((skill, idx) => (
           <motion.div
             key={idx}

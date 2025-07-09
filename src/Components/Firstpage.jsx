@@ -1,13 +1,33 @@
-import {FaInstagram , FaTwitter, FaGithub, FaLinkedinIn } from 'react-icons/fa';
+import { FaInstagram, FaTwitter, FaGithub, FaLinkedinIn } from 'react-icons/fa';
 import { SiJavascript, SiReact, SiMongodb, SiNodedotjs, SiTailwindcss } from 'react-icons/si';
 import image from "../assets/Logo.png";
+import { motion } from "framer-motion";
+import { useEffect, useState } from "react";
+
+const colors = ["#00ffff", "#0ea5e9", "#06b6d4", "#3b82f6", "#f472b6"];
 
 function Firstpage() {
+  const [colorIndex, setColorIndex] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setColorIndex((prev) => (prev + 1) % colors.length);
+    }, 2000);
+    return () => clearInterval(interval);
+  }, []);
+
   return (
-    <div className="min-h-screen bg-[#0f0f1b] text-white font-sans p-4 md:p-8">
+    <div className="min-h-screen overflow-y-scroll bg-[#0f0f1b] text-white font-sans p-4 md:p-8">
+      {/* Animated Name Top Left */}
       
+
       {/* Hero Section */}
-      <div className="bg-[#1c1c2b] rounded-[30px] w-full max-w-screen-xl mx-auto p-6 md:p-10 flex flex-col-reverse md:flex-row items-center justify-between shadow-[0_0_30px_#00f0ff99]">
+      <motion.div
+        initial={{ y: -40, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ duration: 1.2, ease: "easeOut" }}
+        className="bg-[#1c1c2b] rounded-[30px] w-full max-w-screen-xl mx-auto p-6 md:p-10 flex flex-col-reverse md:flex-row items-center justify-between shadow-[0_0_30px_#00f0ff99] mt-24"
+      >
         {/* Left Content */}
         <div className="w-full md:w-1/2 text-center md:text-left mt-8 md:mt-0">
           <h3 className="text-lg md:text-xl mb-2">Hello, It's Me</h3>
@@ -21,15 +41,22 @@ function Firstpage() {
 
           {/* Social Media */}
           <div className="flex justify-center md:justify-start space-x-4 mb-6">
-            <a href="#" className="bg-[#24243c] hover:bg-cyan-500 p-3 rounded-full transition"><FaInstagram /></a>
-            <a href="#" className="bg-[#24243c] hover:bg-cyan-500 p-3 rounded-full transition"><FaTwitter /></a>
-            <a href="https://github.com/" className="bg-[#24243c] hover:bg-cyan-500 p-3 rounded-full transition"><FaGithub /></a>
-            <a href="https://www.linkedin.com/in/mayur-pawar-8246402b8/" className="bg-[#24243c] hover:bg-cyan-500 p-3 rounded-full transition"><FaLinkedinIn /></a>
+            {[FaInstagram, FaTwitter, FaGithub, FaLinkedinIn].map((Icon, index) => (
+              <motion.a
+                key={index}
+                href="#"
+                whileHover={{ scale: 1.2, rotate: 10 }}
+                whileTap={{ scale: 0.9 }}
+                className="bg-[#24243c] hover:bg-cyan-500 p-3 rounded-full transition"
+              >
+                <Icon />
+              </motion.a>
+            ))}
           </div>
 
           {/* Download Resume Button */}
           <a
-            href="/Mayur_Pawar_Resume.pdf" 
+            href="/Mayur_Pawar_Resume.pdf"
             download="Mayur_Pawar_Resume.pdf"
             className="bg-cyan-400 text-black font-semibold px-6 py-2 rounded-full hover:bg-cyan-300 transition inline-block"
           >
@@ -38,7 +65,12 @@ function Firstpage() {
         </div>
 
         {/* Right Image */}
-        <div className="w-full md:w-1/2 flex justify-center md:justify-end">
+        <motion.div
+          initial={{ scale: 0.8, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          transition={{ duration: 1 }}
+          className="w-full md:w-1/2 flex justify-center md:justify-end"
+        >
           <div className="w-48 h-48 sm:w-60 sm:h-60 bg-cyan-400 rounded-[30%] overflow-hidden shadow-[0_0_30px_#00f0ff99]">
             <img
               src={image}
@@ -46,18 +78,22 @@ function Firstpage() {
               className="w-full h-full object-cover"
             />
           </div>
-        </div>
-      </div>
+        </motion.div>
+      </motion.div>
 
       {/* Tech Stack */}
       <div className="max-w-screen-xl mx-auto mt-12 text-center">
         <h2 className="text-2xl font-bold text-cyan-400 mb-4">Tech Stack</h2>
         <div className="flex justify-center flex-wrap gap-8 text-4xl text-white">
-          <SiJavascript className="hover:text-yellow-400 transition" />
-          <SiReact className="hover:text-blue-400 transition" />
-          <SiNodedotjs className="hover:text-green-400 transition" />
-          <SiMongodb className="hover:text-green-600 transition" />
-          <SiTailwindcss className="hover:text-cyan-400 transition" />
+          {[SiJavascript, SiReact, SiNodedotjs, SiMongodb, SiTailwindcss].map((Icon, idx) => (
+            <motion.div
+              key={idx}
+              whileHover={{ scale: 1.3, rotate: 10 }}
+              whileTap={{ scale: 0.9 }}
+            >
+              <Icon className="transition duration-300" />
+            </motion.div>
+          ))}
         </div>
       </div>
 
@@ -71,24 +107,23 @@ function Firstpage() {
 
       {/* Stats Section */}
       <div className="max-w-screen-xl mx-auto mt-16 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 text-center px-4">
-        <div className="bg-[#1c1c2b] p-6 rounded-xl shadow-md hover:shadow-cyan-500/40 transition">
-          <h3 className="text-3xl font-bold text-cyan-400">2+</h3>
-          <p className="text-gray-300 mt-2">Years Experience</p>
-        </div>
-        <div className="bg-[#1c1c2b] p-6 rounded-xl shadow-md hover:shadow-cyan-500/40 transition">
-          <h3 className="text-3xl font-bold text-cyan-400">20+</h3>
-          <p className="text-gray-300 mt-2">Projects Completed</p>
-        </div>
-        <div className="bg-[#1c1c2b] p-6 rounded-xl shadow-md hover:shadow-cyan-500/40 transition">
-          <h3 className="text-3xl font-bold text-cyan-400">10+</h3>
-          <p className="text-gray-300 mt-2">Clients Worldwide</p>
-        </div>
-        <div className="bg-[#1c1c2b] p-6 rounded-xl shadow-md hover:shadow-cyan-500/40 transition">
-          <h3 className="text-3xl font-bold text-cyan-400">100%</h3>
-          <p className="text-gray-300 mt-2">Client Satisfaction</p>
-        </div>
+        {[
+          { count: "2+", label: "Years Experience" },
+          { count: "20+", label: "Projects Completed" },
+          { count: "10+", label: "Clients Worldwide" },
+          { count: "100%", label: "Client Satisfaction" },
+        ].map((item, index) => (
+          <motion.div
+            key={index}
+            whileHover={{ scale: 1.05, rotate: index === 3 ? [0, 2, -2, 0] : 0 }}
+            transition={{ duration: 0.5 }}
+            className="bg-[#1c1c2b] p-6 rounded-xl shadow-md hover:shadow-cyan-500/40 transition"
+          >
+            <h3 className="text-3xl font-bold text-cyan-400">{item.count}</h3>
+            <p className="text-gray-300 mt-2">{item.label}</p>
+          </motion.div>
+        ))}
       </div>
-
     </div>
   );
 }

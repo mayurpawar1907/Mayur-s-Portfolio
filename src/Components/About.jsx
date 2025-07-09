@@ -31,7 +31,7 @@ const EducationInfo = () => {
           viewport={{ once: true }}
           variants={sectionVariant("left")}
         >
-          <h2 className="text-4xl font-bold text-cyan-400 mb-6 underline underline-offset-8">
+          <h2 className="text-4xl font-bold text-cyan-400 mb-9 underline underline-offset-8 mt-14">
             Education
           </h2>
           <div className="bg-[#1c1c2b] p-6 rounded-2xl shadow-[0_0_30px_#00f0ff44] inline-block">

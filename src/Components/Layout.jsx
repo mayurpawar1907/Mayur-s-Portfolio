@@ -1,4 +1,4 @@
-import  { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Navbar from "./Navbar";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
 
@@ -18,8 +18,11 @@ function Layout() {
   }, [location.pathname, navigate]);
 
   return (
-    <div>
-      <Navbar isAuthenticated={isAuthenticated} setIsAuthenticated={setIsAuthenticated} />
+    <div className="min-h-screen overflow-y-scroll hide-scrollbar">
+      <Navbar
+        isAuthenticated={isAuthenticated}
+        setIsAuthenticated={setIsAuthenticated}
+      />
       <Outlet />
     </div>
   );
