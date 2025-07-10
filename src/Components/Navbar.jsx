@@ -7,7 +7,7 @@ import { motion, AnimatePresence } from "framer-motion";
 // 👉 Animated Logo + Heading + Name
 function AnimatedName() {
   const colors = ["#22d3ee", "#38bdf8", "#06b6d4", "#a855f7", "#f472b6"];
-  const heading = "MERN Stack Developer";
+  const heading = "MERN-Stack Developer";
   const name = "Mayur Pawar .";
   const [colorIndex, setColorIndex] = useState(0);
   const [visible, setVisible] = useState(true);
@@ -66,7 +66,7 @@ function AnimatedName() {
             initial="hidden"
             animate="visible"
             exit="exit"
-            className=" text-[9px] sm:text-2xl md:text-3xl  flex gap-[2px] ml-6"
+            className=" text-[9px] sm:text-2xl md:text-3xl  flex gap-[2px] ml-10"
             style={{ color: colors[colorIndex] }}
           >
             {heading.split("").map((char, i) => (
@@ -119,7 +119,7 @@ function Navbar() {
           <li><NavLink to="/" className={navStyle}>Home</NavLink></li>
           <li><NavLink to="/about" className={navStyle}>About</NavLink></li>
           <li><NavLink to="/skills" className={navStyle}>Skills</NavLink></li>
-          <li><NavLink to="/portfolio" className={navStyle}>Portfolio</NavLink></li>
+          <li><NavLink to="/work" className={navStyle}>Work</NavLink></li>
           <li><NavLink to="/contact" className={navStyle}>Contact</NavLink></li>
           {isLoggedIn && <li><NavLink to="/notes" className={navStyle}>Notes</NavLink></li>}
           {isLoggedIn ? (

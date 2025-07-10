@@ -4,7 +4,7 @@ import Layout from "./Components/Layout";
 import Firstpage from "./Components/Firstpage";
 import About from "./Components/About";
 import Skills from "./Components/Skills";
-import Portfolio from "./Components/Portfolio";
+import Work from './Components/Work'
 import Contact from "./Components/Contact";
 import Notes from "./Components/Notes";
 import SavedNotesPage from "./Components/SavedNotesPage";
@@ -21,7 +21,7 @@ function App() {
           <Route index element={<Firstpage />} />
           <Route path="about" element={<About />} />
           <Route path="skills" element={<Skills />} />
-          <Route path="portfolio" element={<Portfolio />} />
+          <Route path="work" element={<Work />} />
           <Route path="contact" element={<Contact />} />
           <Route path="signup" element={<Signup />} />
           <Route path="login" element={<Login />} />

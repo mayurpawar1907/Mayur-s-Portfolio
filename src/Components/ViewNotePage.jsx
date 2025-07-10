@@ -37,12 +37,12 @@ const ViewNotePage = () => {
 
   return (
     <motion.div
-      className="min-h-screen bg-[#0f0f1b] text-white p-6 md:p-10"
+      className="min-h-screen bg-[#0f0f1b] text-white p-6 md:p-10 mt-20"
       initial={{ opacity: 0, y: 30 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6 }}
     >
-      <div className="max-w-4xl mx-auto bg-[#1c1c2b] rounded-3xl shadow-[0_0_30px_#00f0ff66] p-6 relative">
+      <div className="max-w-4xl mx-auto bg-[#1c1c2b] rounded-3xl shadow-[0_0_30px_#00f0ff66] p-6 relative ">
         <AnimatePresence>
           {showTooltip && (
             <motion.div

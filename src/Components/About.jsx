@@ -1,111 +1,150 @@
-import React from "react";
-import { motion } from "framer-motion";
+'use client';
+import { motion } from 'framer-motion';
 
-// Section animation with custom direction
-const sectionVariant = (direction = "left") => ({
-  hidden: {
-    opacity: 0,
-    x: direction === "left" ? -100 : 100,
+const containerVariants = {
+  hidden: {},
+  visible: {
+    transition: {
+      staggerChildren: 0.5,
+    },
   },
+};
+
+const fadeUp = {
+  hidden: { opacity: 0, y: 30 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 1.2, ease: 'easeOut' },
+  },
+};
+
+const fadeLeft = {
+  hidden: { opacity: 0, x: -50 },
   visible: {
     opacity: 1,
     x: 0,
-    transition: {
-      type: "spring",
-      stiffness: 100,
-      damping: 20,
-      duration: 0.6,
-    },
+    transition: { duration: 1.2, ease: 'easeOut' },
   },
-});
-
-const EducationInfo = () => {
-  return (
-    <div className="min-h-screen bg-[#0f0f1b] text-white px-6 py-16 font-sans">
-      <div className="max-w-4xl mx-auto space-y-20">
-        
-        <motion.div
-          className="text-center"
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-          variants={sectionVariant("left")}
-        >
-          <h2 className="text-4xl font-bold text-cyan-400 mb-9 underline underline-offset-8 mt-14">
-            Education
-          </h2>
-          <div className="bg-[#1c1c2b] p-6 rounded-2xl shadow-[0_0_30px_#00f0ff44] inline-block">
-            <h3 className="text-xl font-semibold mb-2">B.Sc in Computer Science</h3>
-            <p className="text-gray-400">XYZ University • 2020 – 2023</p>
-          </div>
-        </motion.div>
-
-        {/* Experience Section - from right */}
-        <motion.div
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-          variants={sectionVariant("right")}
-        >
-          <h2 className="text-4xl font-bold text-cyan-400 mb-10 text-center underline underline-offset-8">
-            Experience
-          </h2>
-          <div className="space-y-8 border-l-4 border-cyan-500 pl-6 relative">
-            <div className="before:absolute before:w-4 before:h-4 before:bg-cyan-500 before:rounded-full before:left-[-11px] before:top-1">
-              <h3 className="text-xl font-semibold">Frontend Developer</h3>
-              <span className="text-gray-400 text-sm block mb-1">
-                TechKriti Solutions • 2023 – 2024
-              </span>
-              <p className="text-gray-400 text-sm">
-                Developed responsive UIs using React + Tailwind, optimized performance,
-                and built scalable front-end components.
-              </p>
-            </div>
-            <div className="before:absolute before:w-4 before:h-4 before:bg-cyan-500 before:rounded-full before:left-[-11px] before:top-[calc(100%+10px)]">
-              <h3 className="text-xl font-semibold">Full Stack Intern</h3>
-              <span className="text-gray-400 text-sm block mb-1">
-                Open Source • 2022 – 2023
-              </span>
-              <p className="text-gray-400 text-sm">
-                Built MERN stack features, worked on API integration, database management, and deployed full stack apps.
-              </p>
-            </div>
-          </div>
-        </motion.div>
-
-        {/* Hobbies Section - from left */}
-        <motion.div
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-          variants={sectionVariant("left")}
-        >
-          <h2 className="text-4xl font-bold text-cyan-400 mb-8 text-center underline underline-offset-8">
-            Hobbies & Interests
-          </h2>
-          <div className="flex flex-wrap justify-center gap-4 text-sm">
-            {[
-              "Exploring UI/UX Design",
-              "Learning New Tech",
-              "Building Side Projects",
-              "Open Source Contributions",
-              "Mentoring Juniors",
-              "Gaming",
-              "Watching Tech Talks",
-              "Debugging Challenges",
-            ].map((hobby, i) => (
-              <span
-                key={i}
-                className="px-4 py-2 bg-[#24243c] text-cyan-300 rounded-full hover:bg-cyan-500 hover:text-black transition-all duration-300 shadow"
-              >
-                {hobby}
-              </span>
-            ))}
-          </div>
-        </motion.div>
-      </div>
-    </div>
-  );
 };
 
-export default EducationInfo;
+const fadeRight = {
+  hidden: { opacity: 0, x: 50 },
+  visible: {
+    opacity: 1,
+    x: 0,
+    transition: { duration: 1.2, ease: 'easeOut' },
+  },
+};
+
+export default function AboutMe() {
+  return (
+    <motion.div
+      initial="hidden"
+      animate="visible"
+      variants={containerVariants}
+      className="min-h-screen bg-[#0f0f1b] text-white px-6 py-16 md:px-20  font-[Poppins]"
+    >
+      {/* Section Heading */}
+      <motion.h1
+        variants={fadeUp}
+        className="text-4xl md:text-6xl font-extrabold text-cyan-400 text-center mb-12 mt-12 tracking-wide leading-tight"
+      >
+        About Me
+      </motion.h1>
+
+      {/* Intro Section */}
+      <div className="max-w-4xl mx-auto space-y-6 text-lg leading-relaxed text-gray-300">
+        {[
+          <>
+            My name is <span className="text-cyan-400 font-semibold">Mayur Pawar</span>, a passionate{' '}
+            <span className="text-cyan-400 font-semibold">MERN-stack Developer</span> based in Pune
+            with over 3 months of experience.
+          </>,
+          <>
+            At 22 years old, I thrive on building impactful digital solutions that help businesses
+            strengthen their online presence. I bring ideas to life through top-notch web applications and
+            websites.
+          </>,
+          <>
+            With an <span className="text-cyan-400 font-semibold">entrepreneurial mindset</span>, I stay
+            adaptable, goal-oriented, and always strive for excellence. I believe in focusing on specific
+            domains to deliver exceptional results and achieve technical mastery.
+          </>,
+        ].map((text, i) => (
+          <motion.p
+            key={i}
+            variants={i % 2 === 0 ? fadeLeft : fadeRight}
+            className="text-[17px] md:text-[18px] text-gray-300 font-light tracking-wide"
+          >
+            {text}
+          </motion.p>
+        ))}
+      </div>
+
+      {/* Work Experience */}
+      <motion.div variants={fadeUp} className="max-w-4xl mx-auto mt-20">
+        <h2 className="text-3xl font-bold text-cyan-400 mb-4 tracking-wider">Work Experience</h2>
+        <p className="text-lg leading-relaxed text-gray-300 font-light">
+          Over 3 months of experience as a MERN-stack developer, skilled in both frontend and backend
+          development with a strong foundation in modern web technologies.
+        </p>
+        <motion.ul className="list-disc list-inside mt-6 space-y-3" variants={containerVariants}>
+          {[
+            'Built dynamic and responsive user interfaces using React.js with modern JavaScript (ES6+), HTML5, and Tailwind CSS.',
+            'Developed secure and scalable backend services using Node.js and Express, following RESTful architecture.',
+            'Worked with MongoDB for schema design, data modeling, and efficient CRUD operations using Mongoose.',
+            'Integrated frontend and backend seamlessly in full-stack MERN applications with JWT-based authentication and role-based access control.',
+          ].map((text, i) => (
+            <motion.li
+              key={i}
+              variants={fadeUp}
+              whileHover={{ scale: 1.02, x: 5 }}
+              className="text-gray-300 tracking-wide"
+            >
+              {text}
+            </motion.li>
+          ))}
+        </motion.ul>
+      </motion.div>
+
+      {/* Companies Worked At */}
+      <motion.div variants={fadeUp} className="max-w-4xl mx-auto mt-20">
+        <h2 className="text-3xl font-bold text-cyan-400 mb-4 tracking-wider">Companies Worked At</h2>
+        <motion.ul className="space-y-6 text-gray-300" variants={containerVariants}>
+          {[
+            {
+              company: 'Bhojsoft Solution',
+              role: 'Front End Developer',
+              duration: 'Jan 2025 – Feb 2025',
+            },
+            {
+              company: 'Techkriti Solution',
+              role: 'MERN-stack Developer',
+              duration: 'May 2025 – July 2025',
+            },
+          ].map((item, i) => (
+            <motion.li
+              key={i}
+              variants={fadeUp}
+              whileHover={{ scale: 1.02, x: 5 }}
+              className="tracking-wide"
+            >
+              <span className="text-white font-semibold">{item.company}</span> – {item.role}
+              <div className="text-sm text-gray-400">{item.duration}</div>
+            </motion.li>
+          ))}
+        </motion.ul>
+      </motion.div>
+
+      {/* Work Policy */}
+      <motion.div variants={fadeRight} className="max-w-4xl mx-auto mt-20">
+        <h2 className="text-3xl font-bold text-cyan-400 mb-4 tracking-wider">Work Policy</h2>
+        <p className="text-lg leading-relaxed text-gray-300 font-light tracking-wide">
+          I spend most of my time in front of my laptop — learning, building, and evolving as a developer.
+          I believe in continuous improvement and staying ahead with modern tech trends.
+        </p>
+      </motion.div>
+    </motion.div>
+  );
+}

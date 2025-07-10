@@ -97,7 +97,7 @@ function NotesPage() {
       const text = res.data.choices[0]?.text || "";
       editor.chain().focus().insertContent(text).run();
     } catch {
-      alert("❌ Failed to generate content from AI.");
+      alert(" Failed to generate content from AI.");
     }
   };
 
@@ -137,9 +137,9 @@ id: Math.floor(Math.random() * 90) + 10,
   };
 
   return (
-    <motion.div className="min-h-screen bg-[#0f0f1b] text-white p-6 md:p-10"
+    <motion.div className="min-h-screen bg-[#0f0f1b] text-white p-6 md:p-10 "
       initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
-      <div className="max-w-6xl mx-auto bg-[#1c1c2b] rounded-3xl shadow-[0_0_30px_#00f0ff66] p-6 relative">
+      <div className="max-w-6xl mx-auto bg-[#1c1c2b] rounded-3xl shadow-[0_0_30px_#00f0ff66] p-6 relative mt-25">
         <AnimatePresence>
           {showTooltip && (
             <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }}
