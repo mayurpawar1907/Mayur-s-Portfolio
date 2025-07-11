@@ -14,6 +14,7 @@ const stats = [
   { count: 100, suffix: "%", label: "Client Satisfaction" },
 ];
 
+
 function Firstpage() {
   const [colorIndex, setColorIndex] = useState(0);
   const [ref, inView] = useInView({ triggerOnce: true });
@@ -47,10 +48,7 @@ function Firstpage() {
             MERN Stack Developer
           </h2>
           <p className="text-gray-400 mb-6 text-sm md:text-base">
-            I specialize in building modern, high-performance web applications
-            using the MERN stack. Passionate about clean code and crafting
-            responsive, user-friendly interfaces that deliver a seamless user
-            experience.
+           I am a <span style={{color:"cyan", fontWeight:"700"}}>MERN-Stack</span> Developer specializing in building modern, high-performance web applications using the MERN stack (MongoDB, Express.js, React.js, Node.js). I’m passionate about writing clean, maintainable code and developing responsive, user-centric interfaces that ensure a seamless and engaging user experience.
           </p>
 
           {/* Social Media Icons (UPDATED) */}
@@ -236,6 +234,7 @@ function Firstpage() {
       </div>
     </div>
   );
+  
 }
 
 export default Firstpage;
