@@ -51,7 +51,7 @@ function Firstpage() {
            I am a <span style={{color:"cyan", fontWeight:"700"}}>MERN-Stack</span> Developer specializing in building modern, high-performance web applications using the MERN stack (MongoDB, Express.js, React.js, Node.js). I’m passionate about writing clean, maintainable code and developing responsive, user-centric interfaces that ensure a seamless and engaging user experience.
           </p>
 
-          {/* Social Media Icons (UPDATED) */}
+        
           <motion.div
             initial="hidden"
             animate="visible"
