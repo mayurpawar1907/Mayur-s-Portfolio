@@ -133,8 +133,8 @@ function Navbar() {
             </li>
           ) : (
             <>
-              <li><NavLink to="/signup" className={navStyle}>Signup</NavLink></li>
-              <li><NavLink to="/login" className={navStyle}>Login</NavLink></li>
+              {/* <li><NavLink to="/signup" className={navStyle}>Signup</NavLink></li>
+              <li><NavLink to="/login" className={navStyle}>Login</NavLink></li> */}
             </>
           )}
         </ul>
@@ -168,8 +168,8 @@ function Navbar() {
             </li>
           ) : (
             <>
-              <li><NavLink to="/signup" className={navStyle} onClick={toggleMenu}>Signup</NavLink></li>
-              <li><NavLink to="/login" className={navStyle} onClick={toggleMenu}>Login</NavLink></li>
+              {/* <li><NavLink to="/signup" className={navStyle} onClick={toggleMenu}>Signup</NavLink></li>
+              <li><NavLink to="/login" className={navStyle} onClick={toggleMenu}>Login</NavLink></li> */}
             </>
           )}
         </ul>
