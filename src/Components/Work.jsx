@@ -1,121 +1,110 @@
+'use client';
 import React from 'react';
 import { motion } from 'framer-motion';
-import { FaExternalLinkAlt } from 'react-icons/fa';
+import { BsPatchCheckFill } from 'react-icons/bs';
 
-const projects = [
+const projectDetails = [
   {
-    title: 'Chicken99',
-    description: 'A full-stack MERN food delivery platform with cart, payment, and admin panel.',
-    link: 'https://yourproject1.vercel.app',
-    tech: ['Next', 'MongoDB', 'JWT'],
+    title: "Front-End Development",
+    text: "Created dynamic and responsive user interfaces using React.js, Redux, Tailwind, Bootstrap, and Framer Motion.",
   },
   {
-    title: 'E-commerce Store',
-    description: 'Modern UI e-commerce app with filtering, cart, and user auth.',
-    link: 'https://yourproject2.netlify.app',
-    tech: ['Next.js', 'TypeScript', 'Stripe'],
+    title: "Back-End Development",
+    text: "Built and maintained robust APIs with Node.js and Express.js, handling data processing and business logic efficiently.",
   },
   {
-    title: 'Portfolio Website',
-    description: 'Personal portfolio to showcase projects and skills.',
-    link: 'https://yourportfolio.vercel.app',
-    tech: ['React', 'Framer Motion', 'Tailwind'],
+    title: "Database Management",
+    text: "Worked with MongoDB & SQL to ensure high performance and data integrity.",
   },
   {
-    title: 'Blog Platform',
-    description: 'CMS-powered blog with Markdown support and admin login.',
-    link: 'https://yourproject4.vercel.app',
-    tech: ['Next.js', 'MongoDB', 'Auth'],
+    title: "API Integration",
+    text: "Developed and consumed RESTful APIs for seamless front-end and back-end communication.",
   },
   {
-    title: 'Task Manager',
-    description: 'Organize daily tasks with filters, deadlines, and user sessions.',
-    link: 'https://yourproject5.vercel.app',
-    tech: ['React', 'Node.js', 'Express'],
+    title: "Testing and Quality Assurance",
+    text: "Implemented Postman tests, reducing bugs by 20% and ensuring high code quality.",
   },
   {
-    title: 'Weather App',
-    description: 'Weather forecast app using OpenWeatherMap API.',
-    link: 'https://yourproject6.netlify.app',
-    tech: ['JavaScript', 'API', 'Bootstrap'],
+    title: "Collaboration",
+    text: "Worked in Agile teams, participating in daily stand-ups and sprint planning to deliver features on time.",
   },
   {
-    title: 'Movie Search App',
-    description: 'Search movie info from OMDb API with light/dark theme.',
-    link: 'https://yourproject7.vercel.app',
-    tech: ['React', 'API', 'Tailwind CSS'],
-  },
-  {
-    title: 'Chat App',
-    description: 'Real-time chat app with socket.io and MongoDB.',
-    link: 'https://yourproject8.vercel.app',
-    tech: ['Node.js', 'Socket.io', 'React'],
-  },
-  {
-    title: 'URL Shortener',
-    description: 'Simple URL shortener with analytics and redirects.',
-    link: 'https://yourproject9.vercel.app',
-    tech: ['Express', 'MongoDB', 'EJS'],
-  },
-  {
-    title: 'Expense Tracker',
-    description: 'Track your monthly income/expense visually.',
-    link: 'https://yourproject10.netlify.app',
-    tech: ['React', 'Context API', 'Charts.js'],
+    title: "Problem Solving",
+    text: "Resolved critical bugs, improving app stability and user satisfaction.",
   },
 ];
 
-const Work = () => {
+const containerVariants = {
+  hidden: {},
+  show: {
+    transition: {
+      staggerChildren: 0.15,
+    },
+  },
+};
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 30 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.5 } },
+};
+
+const ProjectOverview = () => {
   return (
-    <section className="min-h-screen bg-[#0f0f1b] text-white px-4 py-16 overflow-x-hidden">
-      <motion.h2
+    <motion.div
+      initial="hidden"
+      whileInView="show"
+      viewport={{ once: true, amount: 0.3 }}
+      variants={containerVariants}
+      style={{ width: '100%', paddingTop: '100px' }}
+      className="overflow-x-hidden rounded-2xl shadow-[0_0_40px_#00f0ff33] p-6 md:p-10 bg-gradient-to-br from-[#0f0f1b] to-[#121223] border border-cyan-500/20"
+    >
+      {/* Heading */}
+      <motion.h3
         initial={{ opacity: 0, y: -40 }}
         whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.7 }}
-        viewport={{ once: true, amount: 0.3 }}
-        className="text-3xl md:text-4xl font-bold text-center mb-12 mt-6"
+        transition={{ duration: 0.6 }}
+        className="text-3xl font-bold text-cyan-400 mb-6 text-center"
       >
-        My <span className="text-cyan-400">Work</span>
-      </motion.h2>
+        Identity and Access Management Platform
+      </motion.h3>
 
-      <div className="grid sm:grid-cols-1 md:grid-cols-2 gap-8 max-w-6xl mx-auto">
-        {projects.map((project, i) => (
-          <motion.div
+      {/* Subheading */}
+      <motion.p
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.3, duration: 0.5 }}
+        className="text-gray-100 text-center text-base mb-8"
+      >
+        Responsibilities and Achievements:
+      </motion.p>
+
+      {/* List */}
+      <motion.ul
+        variants={containerVariants}
+        className="space-y-6"
+      >
+        {projectDetails.map((item, i) => (
+          <motion.li
             key={i}
-            initial={{ opacity: 0, scale: 0.9 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true, amount: 0.3 }}
-            transition={{ duration: 0.5, delay: i * 0.1 }}
-            className="group relative bg-[#1c1c2b]/70 backdrop-blur-md border border-cyan-500/20 p-5 rounded-2xl shadow-[0_0_20px_#00f0ff33] hover:shadow-[0_0_40px_#00f0ff66] transition-all duration-300 overflow-hidden"
+            variants={itemVariants}
+            className="flex items-start gap-4 bg-[#1a1a2b] hover:bg-[#23233a] p-5 rounded-lg transition-all duration-300 border border-cyan-400/10"
           >
-            <div className="absolute inset-0 opacity-0 group-hover:opacity-10 bg-cyan-400 rounded-2xl blur-2xl z-[-1]" />
-            <h3 className="text-xl md:text-2xl font-semibold text-cyan-400 mb-2">{project.title}</h3>
-            <p className="text-gray-300 text-sm md:text-base mb-4">{project.description}</p>
-            <div className="flex flex-wrap gap-2 mb-5">
-              {project.tech.map((tech, idx) => (
-                <motion.span
-                  key={idx}
-                  whileHover={{ scale: 1.05 }}
-                  className="text-xs md:text-sm px-2 py-1 bg-cyan-500/10 text-cyan-300 rounded-md border border-cyan-500/20 backdrop-blur-sm"
-                >
-                  {tech}
-                </motion.span>
-              ))}
+            <span className="text-cyan-400 mt-1 animate-pulse">
+              <BsPatchCheckFill size={20} />
+            </span>
+            <div>
+              <h4 className="text-cyan-300 font-semibold text-lg mb-1">
+                {item.title}
+              </h4>
+              <p className="text-gray-300 text-base leading-relaxed">
+                {item.text}
+              </p>
             </div>
-            <motion.a
-              href={project.link}
-              target="_blank"
-              rel="noopener noreferrer"
-              whileHover={{ scale: 1.05 }}
-              className="inline-flex items-center gap-2 text-sm text-white bg-cyan-500 px-4 py-2 rounded-lg hover:bg-cyan-600 transition"
-            >
-              View Project <FaExternalLinkAlt size={12} />
-            </motion.a>
-          </motion.div>
+          </motion.li>
         ))}
-      </div>
-    </section>
+      </motion.ul>
+    </motion.div>
   );
 };
 
-export default Work;
+export default ProjectOverview;

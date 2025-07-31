@@ -8,7 +8,7 @@ import { useInView } from "react-intersection-observer";
 const colors = ["#00ffff", "#0ea5e9", "#06b6d4", "#3b82f6", "#f472b6"];
 
 const stats = [
-  { count: 0, suffix: "+", label: "Years Experience" },
+  { count: 1, suffix: "+", label: "Years Experience" },
   { count: 10, suffix: "+", label: "Projects Completed" },
   { count: 2, suffix: "+", label: "Clients Worldwide" },
   { count: 100, suffix: "%", label: "Client Satisfaction" },
@@ -45,10 +45,10 @@ function Firstpage() {
           <h3 className="text-lg md:text-xl mb-2">Hello, It's Me</h3>
           <h1 className="text-3xl md:text-5xl font-bold mb-2">Mayur Pawar</h1>
           <h2 className="text-xl md:text-2xl font-semibold text-cyan-400 mb-6">
-            MERN Stack Developer
+            Full-Stack Developer
           </h2>
           <p className="text-gray-400 mb-6 text-sm md:text-base">
-           I am a <span style={{color:"cyan", fontWeight:"700"}}>MERN-Stack</span> Developer specializing in building modern, high-performance web applications using the MERN stack (MongoDB, Express.js, React.js, Node.js). I’m passionate about writing clean, maintainable code and developing responsive, user-centric interfaces that ensure a seamless and engaging user experience.
+           I am a <span style={{color:"cyan", fontWeight:"700"}}>Full-Stack</span> Developer specializing in building modern, high-performance web applications using the MERN stack (MongoDB, Express.js, React.js, Node.js). I’m passionate about writing clean, maintainable code and developing responsive, user-centric interfaces that ensure a seamless and engaging user experience.
           </p>
 
         
