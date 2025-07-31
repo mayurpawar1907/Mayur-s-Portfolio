@@ -56,7 +56,7 @@ const ProjectOverview = () => {
       viewport={{ once: true, amount: 0.3 }}
       variants={containerVariants}
       style={{ width: '100%', paddingTop: '100px' }}
-      className="overflow-x-hidden rounded-2xl shadow-[0_0_40px_#00f0ff33] p-6 md:p-10 bg-gradient-to-br from-[#0f0f1b] to-[#121223] border border-cyan-500/20"
+      className="overflow-x-hidden  shadow-[0_0_40px_#00f0ff33] p-6 md:p-10 bg-gradient-to-br from-[#0f0f1b] to-[#121223] border border-cyan-500/20"
     >
       {/* Heading */}
       <motion.h3
