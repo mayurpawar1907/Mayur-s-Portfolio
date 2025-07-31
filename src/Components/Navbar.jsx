@@ -151,7 +151,7 @@ function Navbar() {
           <li><NavLink to="/" className={navStyle} onClick={toggleMenu}>Home</NavLink></li>
           <li><NavLink to="/about" className={navStyle} onClick={toggleMenu}>About</NavLink></li>
           <li><NavLink to="/skills" className={navStyle} onClick={toggleMenu}>Skills</NavLink></li>
-         <li><NavLink to="/work" className={navStyle}>Work</NavLink></li>
+         <li><NavLink to="/work" className={navStyle} onClick={toggleMenu}>Work</NavLink></li>
           <li><NavLink to="/contact" className={navStyle} onClick={toggleMenu}>Contact</NavLink></li>
           {isLoggedIn && <li><NavLink to="/notes" className={navStyle} onClick={toggleMenu}>Notes</NavLink></li>}
           {isLoggedIn ? (
