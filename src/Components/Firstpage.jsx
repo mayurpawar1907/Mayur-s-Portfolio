@@ -169,7 +169,8 @@ function Firstpage() {
               <img
                 src={image}
                 alt="Profile"
-                className="relative z-20 w-full h-full object-cover rounded-[30%]"
+                style={{position:"relative", bottom:"20px", right:"10px"}}
+                className="relative z-10 w-full h-full object-cover rounded-[30%]"
               />
             </motion.div>
           </motion.div>
