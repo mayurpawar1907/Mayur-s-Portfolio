@@ -1,241 +1,299 @@
+import { useEffect, useState } from "react";
 import { FaInstagram, FaTwitter, FaGithub, FaLinkedinIn } from "react-icons/fa";
+import { FiDownload, FiMail } from "react-icons/fi";
 import image from "../assets/Logo.png";
 import { motion } from "framer-motion";
-import { useEffect, useState } from "react";
 import CountUp from "react-countup";
 import { useInView } from "react-intersection-observer";
 
-const colors = ["#00ffff", "#0ea5e9", "#06b6d4", "#3b82f6", "#f472b6"];
-
-const stats = [
-  { count: 1, suffix: "+", label: "Years Experience" },
-  { count: 10, suffix: "+", label: "Projects Completed" },
-  { count: 2, suffix: "+", label: "Clients Worldwide" },
-  { count: 100, suffix: "%", label: "Client Satisfaction" },
+const roles = [
+  "Full-Stack Developer",
+  "React.js Developer",
+  "Node.js Developer",
+  "MERN Stack Developer",
 ];
 
+const stats = [
+  { count: 1, suffix: ".8+", label: "Years Experience" },
+  { count: 2, suffix: "+", label: "Companies" },
+  { count: 2, suffix: "+", label: "Live Projects" },
+  { count: 100, suffix: "%", label: "Quality Focus" },
+];
 
-function Firstpage() {
-  const [colorIndex, setColorIndex] = useState(0);
-  const [ref, inView] = useInView({ triggerOnce: true });
+function TypeWriter({ words }) {
+  const [index, setIndex] = useState(0);
+  const [subIndex, setSubIndex] = useState(0);
+  const [deleting, setDeleting] = useState(false);
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      setColorIndex((prev) => (prev + 1) % colors.length);
-    }, 3000);
-    return () => clearInterval(interval);
-  }, []);
+    if (!deleting && subIndex === words[index].length) {
+      const t = setTimeout(() => setDeleting(true), 1800);
+      return () => clearTimeout(t);
+    }
+    if (deleting && subIndex === 0) {
+      setDeleting(false);
+      setIndex((i) => (i + 1) % words.length);
+      return;
+    }
+    const t = setTimeout(
+      () => setSubIndex((s) => s + (deleting ? -1 : 1)),
+      deleting ? 50 : 85
+    );
+    return () => clearTimeout(t);
+  }, [subIndex, deleting, index, words]);
 
   return (
-    <div className="min-h-screen overflow-y-scroll bg-[#0f0f1b] text-white font-sans p-4 md:p-8">
-      {/* Hero Section */}
-      <motion.div
-        initial={{ y: -40, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 1.2, ease: "easeOut" }}
-        className="bg-[#1c1c2b] rounded-[30px] w-full max-w-screen-xl mx-auto p-6 md:p-10 flex flex-col-reverse md:flex-row items-center justify-between shadow-[0_0_30px_#00f0ff99] mt-24"
+    <span className="text-cyan-400">
+      {words[index].substring(0, subIndex)}
+      <motion.span
+        animate={{ opacity: [1, 0, 1] }}
+        transition={{ duration: 0.8, repeat: Infinity }}
+        className="inline-block"
       >
-        {/* Left Content */}
+        |
+      </motion.span>
+    </span>
+  );
+}
+
+const socialLinks = [
+  { icon: <FaInstagram size={16} />, href: "https://instagram.com/", label: "Instagram" },
+  { icon: <FaTwitter size={16} />, href: "https://twitter.com/", label: "Twitter" },
+  { icon: <FaGithub size={16} />, href: "https://github.com/mayurpawar1907", label: "GitHub" },
+  { icon: <FaLinkedinIn size={16} />, href: "https://www.linkedin.com/in/mayur-pawar-8246402b8/", label: "LinkedIn" },
+];
+
+export default function Firstpage() {
+  const [statsRef, statsInView] = useInView({ triggerOnce: true, threshold: 0.2 });
+
+  return (
+    <div className="relative min-h-screen overflow-hidden bg-[#0a0a14] text-white">
+      {/* Grid bg */}
+      <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.028)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.028)_1px,transparent_1px)] bg-[size:44px_44px]" />
+
+      {/* Ambient orbs */}
+      {[
+        { cls: "h-[500px] w-[500px] bg-cyan-500/15 -top-32 -left-32", delay: 0, dur: 7 },
+        { cls: "h-[350px] w-[350px] bg-purple-600/12 top-1/2 -right-24", delay: 2, dur: 9 },
+        { cls: "h-[280px] w-[280px] bg-blue-500/10 bottom-24 left-1/3", delay: 4, dur: 8 },
+      ].map((orb, i) => (
         <motion.div
-          initial={{ x: -50, opacity: 0 }}
-          animate={{ x: 0, opacity: 1 }}
-          transition={{ duration: 1, delay: 0.2 }}
-          className="w-full md:w-1/2 text-center md:text-left mt-8 md:mt-0"
-        >
-          <h3 className="text-lg md:text-xl mb-2">Hello, It's Me</h3>
-          <h1 className="text-3xl md:text-5xl font-bold mb-2">Mayur Pawar</h1>
-          <h2 className="text-xl md:text-2xl font-semibold text-cyan-400 mb-6">
-            Full-Stack Developer
-          </h2>
-          <p className="text-gray-400 mb-6 text-sm md:text-base">
-           I am a <span style={{color:"cyan", fontWeight:"700"}}>Full-Stack</span> Developer specializing in building modern, high-performance web applications using the MERN stack (MongoDB, Express.js, React.js, Node.js). I’m passionate about writing clean, maintainable code and developing responsive, user-centric interfaces that ensure a seamless and engaging user experience.
-          </p>
+          key={i}
+          className={`pointer-events-none absolute rounded-full blur-3xl ${orb.cls}`}
+          animate={{ y: [0, -28, 0], scale: [1, 1.08, 1] }}
+          transition={{ duration: orb.dur, repeat: Infinity, ease: "easeInOut", delay: orb.delay }}
+        />
+      ))}
 
-        
-          <motion.div
-            initial="hidden"
-            animate="visible"
-            variants={{
-              hidden: {},
-              visible: {
-                transition: {
-                  staggerChildren: 0.15,
-                },
-              },
-            }}
-            className="flex justify-center md:justify-start space-x-4 mb-6"
-          >
-            <motion.a
-              href="https://instagram.com/"
-              target="_blank"
-              rel="noopener noreferrer"
-              whileHover={{ scale: 1.3, rotate: 10 }}
-              whileTap={{ scale: 0.95 }}
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4 }}
-              className="bg-[#24243c] hover:bg-cyan-500 p-3 rounded-full transition"
-            >
-              <FaInstagram />
-            </motion.a>
+      <div className="pointer-events-none absolute inset-x-0 top-[88px] h-px bg-gradient-to-r from-transparent via-cyan-400/40 to-transparent" />
 
-            <motion.a
-              href="https://twitter.com/"
-              target="_blank"
-              rel="noopener noreferrer"
-              whileHover={{ scale: 1.3, rotate: 10 }}
-              whileTap={{ scale: 0.95 }}
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4 }}
-              className="bg-[#24243c] hover:bg-cyan-500 p-3 rounded-full transition"
-            >
-              <FaTwitter />
-            </motion.a>
-
-            <motion.a
-              href="https://github.com/mayurpawar1907"
-              target="_blank"
-              rel="noopener noreferrer"
-              whileHover={{ scale: 1.3, rotate: 10 }}
-              whileTap={{ scale: 0.95 }}
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4 }}
-              className="bg-[#24243c] hover:bg-cyan-500 p-3 rounded-full transition"
-            >
-              <FaGithub />
-            </motion.a>
-
-            <motion.a
-              href="https://www.linkedin.com/in/mayur-pawar-8246402b8/"
-              target="_blank"
-              rel="noopener noreferrer"
-              whileHover={{ scale: 1.3, rotate: 10 }}
-              whileTap={{ scale: 0.95 }}
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4 }}
-              className="bg-[#24243c] hover:bg-cyan-500 p-3 rounded-full transition"
-            >
-              <FaLinkedinIn />
-            </motion.a>
-          </motion.div>
-
-          {/* Resume Button */}
-          <motion.a
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            href="/Mayur's_Resume.pdf"
-            download="/Mayur's_Resume.pdf"
-            className="bg-cyan-400 text-black font-semibold px-6 py-2 rounded-full hover:bg-cyan-300 transition inline-block"
-          >
-            Download CV
-          </motion.a>
-        </motion.div>
-
-        {/* Right Image */}
+      {/* ── Hero Card ── */}
+      <div className="px-4 pb-8 pt-24 sm:px-6 md:px-8 lg:px-10">
         <motion.div
-          initial={{ scale: 0.8, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
-          transition={{ duration: 1 }}
-          className="w-full md:w-1/2 flex justify-center md:justify-end"
+          initial={{ y: -50, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ duration: 1, ease: "easeOut" }}
+          className="relative mx-auto flex w-full max-w-screen-xl flex-col-reverse items-center justify-between gap-10 overflow-hidden rounded-[28px] border border-cyan-300/15 bg-[#0e0e1c] p-6 shadow-[0_24px_90px_rgba(0,240,255,0.14)] sm:p-8 md:flex-row md:p-10 lg:p-14"
         >
+          <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.018)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.018)_1px,transparent_1px)] bg-[size:44px_44px]" />
+          <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-cyan-400/40 to-transparent" />
+
+          {/* Left */}
           <motion.div
-            whileHover={{
-              scale: 1.05,
-              boxShadow: "0px 0px 40px rgba(0, 255, 255, 0.4)",
-            }}
-            transition={{ type: "spring", stiffness: 100, damping: 10 }}
-            className="relative w-48 h-48 sm:w-60 sm:h-60 rounded-[30%] bg-gradient-to-br from-cyan-400 to-cyan-600 p-1 overflow-hidden border-4 border-cyan-300 shadow-[0_0_30px_#00f0ff66]"
+            initial={{ x: -60, opacity: 0 }}
+            animate={{ x: 0, opacity: 1 }}
+            transition={{ duration: 0.9, delay: 0.2 }}
+            className="relative z-10 w-full text-center md:w-3/5 md:text-left"
           >
             <motion.div
-              whileHover={{ scale: 1.06 }}
-              transition={{ type: "spring", stiffness: 120, damping: 12 }}
-              className="relative w-48 h-48 sm:w-60 sm:h-60 rounded-[30%] overflow-hidden bg-[#1c1c2b] border-4 border-cyan-300 shadow-[0_0_50px_#00f0ff50]"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.3 }}
+              className="mb-4 inline-flex items-center gap-2 rounded-full border border-cyan-300/25 bg-cyan-300/8 px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.18em] text-cyan-200"
             >
-              <motion.div
-                className="absolute inset-0 rounded-[30%] z-0"
-                animate={{
-                  boxShadow: [
-                    "0 0 20px #00f0ff30",
-                    "0 0 30px #00f0ff50",
-                    "0 0 20px #00f0ff30",
-                  ],
-                }}
-                transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+              <motion.span
+                animate={{ scale: [1, 1.4, 1] }}
+                transition={{ duration: 1.5, repeat: Infinity }}
+                className="h-1.5 w-1.5 rounded-full bg-cyan-400"
               />
-              <div className="absolute inset-0 bg-white/5 backdrop-blur-sm rounded-[30%] z-10 pointer-events-none" />
-              <img
-                src={image}
-                alt="Profile"
-                style={{position:"relative", bottom:"20px", right:"10px"}}
-                className="relative z-10 w-full h-full object-cover rounded-[30%]"
-              />
+              Available for Opportunities
+            </motion.div>
+
+            <motion.p
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.35 }}
+              className="mb-1 text-sm font-medium tracking-widest text-slate-400 sm:text-base"
+            >
+              Hello, It&apos;s Me
+            </motion.p>
+
+            <motion.h1
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.42 }}
+              className="mb-2 text-3xl font-black tracking-tight text-white sm:text-4xl lg:text-5xl xl:text-6xl"
+            >
+              Mayur Pawar
+            </motion.h1>
+
+            <motion.div
+              initial={{ opacity: 0, y: 14 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.5 }}
+              className="mb-5 text-lg font-extrabold sm:text-xl lg:text-2xl"
+            >
+              <TypeWriter words={roles} />
+            </motion.div>
+
+            <motion.p
+              initial={{ opacity: 0, y: 14 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.58 }}
+              className="mb-6 max-w-lg text-sm leading-7 text-slate-300 sm:text-base sm:leading-8"
+            >
+              Dynamic Full-Stack Developer with{" "}
+              <span className="font-bold text-cyan-300">1.8+ years of experience</span> building
+              responsive, scalable web applications. Skilled in React.js, Next.js, Node.js,
+              Express.js, SQL/MySQL, and Tailwind CSS — delivering production-grade platforms for
+              real clients across India and the USA.
+            </motion.p>
+
+            {/* Social icons */}
+            <motion.div
+              initial="hidden"
+              animate="visible"
+              variants={{ hidden: {}, visible: { transition: { staggerChildren: 0.1 } } }}
+              className="mb-6 flex justify-center gap-3 md:justify-start"
+            >
+              {socialLinks.map((link) => (
+                <motion.a
+                  key={link.label}
+                  href={link.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={link.label}
+                  variants={{ hidden: { opacity: 0, y: 12 }, visible: { opacity: 1, y: 0 } }}
+                  whileHover={{ scale: 1.25, rotate: 10, y: -4 }}
+                  whileTap={{ scale: 0.9 }}
+                  className="grid h-10 w-10 place-items-center rounded-full border border-white/10 bg-white/5 text-slate-300 transition hover:border-cyan-400/50 hover:bg-cyan-500 hover:text-white hover:shadow-[0_0_18px_rgba(0,240,255,0.4)] sm:h-11 sm:w-11"
+                >
+                  {link.icon}
+                </motion.a>
+              ))}
+            </motion.div>
+
+            {/* CTA */}
+            <motion.div
+              initial={{ opacity: 0, y: 18 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.72 }}
+              className="flex flex-col justify-center gap-3 sm:flex-row md:justify-start"
+            >
+              <motion.a
+                whileHover={{ scale: 1.05, y: -3, boxShadow: "0 0 32px rgba(0,240,255,0.55)" }}
+                whileTap={{ scale: 0.95 }}
+                href="/Mayur's_Resume.pdf"
+                download="Mayur-Pawar-Resume.pdf"
+                className="inline-flex items-center justify-center gap-2 rounded-full bg-cyan-400 px-6 py-2.5 text-sm font-bold text-black shadow-[0_0_20px_rgba(0,240,255,0.3)] transition hover:bg-cyan-300 sm:px-7 sm:py-3"
+              >
+                <FiDownload /> Download CV
+              </motion.a>
+              <motion.a
+                whileHover={{ scale: 1.05, y: -3 }}
+                whileTap={{ scale: 0.95 }}
+                href="/contact"
+                className="inline-flex items-center justify-center gap-2 rounded-full border border-cyan-300/35 px-6 py-2.5 text-sm font-bold text-cyan-100 transition hover:border-cyan-300/60 hover:bg-cyan-300/10 sm:px-7 sm:py-3"
+              >
+                <FiMail /> Contact Me
+              </motion.a>
             </motion.div>
           </motion.div>
-        </motion.div>
-      </motion.div>
 
-      {/* CTA Section */}
-      <div className="max-w-screen-xl mx-auto mt-12 text-center">
-        <motion.h2
-          initial={{ opacity: 0, scale: 0.95 }}
+          {/* Right — profile image */}
+          <motion.div
+            initial={{ scale: 0.65, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            transition={{ duration: 1, delay: 0.25 }}
+            className="relative z-10 flex w-full shrink-0 justify-center md:w-2/5 md:justify-end"
+          >
+            <div className="relative">
+              <motion.div
+                animate={{ rotate: 360 }}
+                transition={{ duration: 14, repeat: Infinity, ease: "linear" }}
+                className="absolute -inset-4 rounded-[35%] border-2 border-dashed border-cyan-400/30"
+              />
+              <motion.div
+                animate={{ rotate: -360 }}
+                transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+                className="absolute -inset-8 rounded-[35%] border border-dashed border-purple-400/15"
+              />
+              <motion.div
+                whileHover={{ scale: 1.05, boxShadow: "0 0 60px rgba(0,255,255,0.5)" }}
+                className="relative h-44 w-44 overflow-hidden rounded-[30%] border-4 border-cyan-400 shadow-[0_0_40px_rgba(0,240,255,0.5)] sm:h-56 sm:w-56 lg:h-64 lg:w-64"
+              >
+                <motion.div
+                  className="absolute inset-0 z-0"
+                  animate={{ boxShadow: ["0 0 20px #00f0ff30", "0 0 50px #00f0ff80", "0 0 20px #00f0ff30"] }}
+                  transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+                />
+                <img
+                  src={image}
+                  alt="Mayur Pawar"
+                  className="relative  bottom z-20 h-full w-full object-contain object-center"
+                />
+              </motion.div>
+            </div>
+          </motion.div>
+        </motion.div>
+      </div>
+
+      {/* ── Tagline ── */}
+      <div className="relative z-10 mx-auto mt-6 max-w-screen-xl px-4 text-center sm:mt-10">
+        <motion.p
+          initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 1 }}
-          className="text-2xl text-cyan-400 mt-4"
+          transition={{ duration: 0.8, delay: 0.3 }}
+          className="text-xs font-semibold uppercase tracking-[0.3em] text-cyan-400 sm:text-sm"
         >
-          Have an idea?
-        </motion.h2>
+          Full-Stack Developer · 1.8+ Years Experience · Pune, India
+        </motion.p>
         <motion.h2
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 18 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{
-            duration: 1,
-            delay: 0.2,
-            repeat: Infinity,
-            repeatType: "mirror",
-          }}
-          className="text-5xl font-bold text-cyan-400 mb-8 mt-2"
+          transition={{ duration: 0.9, delay: 0.45 }}
+          className="mt-3 text-2xl font-black text-white sm:text-3xl md:text-4xl"
         >
-          Let's talk about it
+          React &nbsp;·&nbsp; Next.js &nbsp;·&nbsp; Node.js &nbsp;·&nbsp; SQL
         </motion.h2>
       </div>
 
-      {/* Stats Section */}
+      {/* ── Stats ── */}
       <div
-        ref={ref}
-        className="max-w-screen-xl mx-auto mt-16 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 text-center px-4"
+        ref={statsRef}
+        className="relative z-10 mx-auto mt-10 grid max-w-screen-xl grid-cols-2 gap-4 px-4 text-center sm:gap-5 md:grid-cols-4 md:px-8"
       >
-        {stats.map((item, index) => (
+        {stats.map((item, i) => (
           <motion.div
-            key={index}
-            whileHover={{
-              scale: 1.05,
-              rotate: index === 3 ? [0, 2, -2, 0] : 0,
-            }}
-            initial={{ opacity: 0, y: 30 }}
-            animate={inView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.6, delay: index * 0.2 }}
-            className="bg-[#1c1c2b] p-6 rounded-xl shadow-md hover:shadow-cyan-500/40 transition"
+            key={item.label}
+            initial={{ opacity: 0, y: 40 }}
+            animate={statsInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.65, delay: i * 0.12 }}
+            whileHover={{ scale: 1.06, y: -6, boxShadow: "0 0 30px rgba(0,240,255,0.2)" }}
+            className="rounded-2xl border border-white/8 bg-[#0e0e1c] p-5 shadow-md transition hover:border-cyan-300/35 sm:p-6"
           >
-            <h3 className="text-3xl font-bold text-cyan-400">
-              {inView && (
-                <CountUp
-                  start={0}
-                  end={item.count}
-                  duration={2}
-                  suffix={item.suffix}
-                />
+            <h3 className="text-2xl font-black text-cyan-400 sm:text-3xl">
+              {statsInView && (
+                <CountUp start={0} end={item.count} duration={2.2} suffix={item.suffix} />
               )}
             </h3>
-            <p className="text-gray-300 mt-2">{item.label}</p>
+            <p className="mt-2 text-xs font-medium text-slate-400 sm:text-sm">{item.label}</p>
           </motion.div>
         ))}
       </div>
+
+      {/* bottom spacing */}
+      <div className="h-16" />
     </div>
   );
-  
 }
-
-export default Firstpage;

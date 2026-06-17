@@ -18,7 +18,7 @@ function Layout() {
   }, [location.pathname, navigate]);
 
   return (
-    <div className="min-h-screen overflow-y-scroll hide-scrollbar">
+    <div className="min-h-screen overflow-y-scroll bg-[#0f0f1b] hide-scrollbar">
       <Navbar
         isAuthenticated={isAuthenticated}
         setIsAuthenticated={setIsAuthenticated}

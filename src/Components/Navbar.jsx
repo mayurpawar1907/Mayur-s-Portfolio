@@ -1,103 +1,71 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
-import { FiMenu, FiX } from "react-icons/fi";
-import { FaCode } from "react-icons/fa";
-import { motion, AnimatePresence } from "framer-motion";
+import { FiCode, FiLogOut, FiMenu, FiX } from "react-icons/fi";
+import { AnimatePresence, motion } from "framer-motion";
 
-// 👉 Animated Logo + Heading + Name
-function AnimatedName() {
-  const colors = ["#22d3ee", "#38bdf8", "#06b6d4", "#a855f7", "#f472b6"];
-  const heading = "MERN-Stack Developer";
-  const name = "Mayur Pawar .";
-  const [colorIndex, setColorIndex] = useState(0);
-  const [visible, setVisible] = useState(true);
-  const [cycleKey, setCycleKey] = useState(0);
+const TITLE = "Full-Stack Developer";
+
+/* gradient stops — each letter picks a color along cyan→purple→pink */
+const GRADIENT_COLORS = [
+  "#22d3ee","#21cff0","#1fcaf2","#38bdf8","#60a5fa",
+  "#818cf8","#a78bfa","#c084fc","#d946ef","#e879f9",
+  "#f472b6","#fb7185","#f472b6","#e879f9","#d946ef",
+  "#c084fc","#a78bfa","#818cf8","#60a5fa",
+];
+
+function BouncingTitle() {
+  const [cycle, setCycle] = useState(0);
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      setVisible(false);
-      setTimeout(() => {
-        setCycleKey((prev) => prev + 1);
-        setColorIndex((prev) => (prev + 1) % colors.length);
-        setVisible(true);
-      }, 1000);
-    }, 5000);
-    return () => clearInterval(interval);
+    const t = setInterval(() => setCycle((c) => c + 1), 3200);
+    return () => clearInterval(t);
   }, []);
 
-  const container = {
-    hidden: {},
-    visible: { transition: { staggerChildren: 0.08, staggerDirection: 1 } },
-    exit: { transition: { staggerChildren: 0.08, staggerDirection: -1 } },
-  };
-
-  const letter = {
-    hidden: { opacity: 0, x: -10 },
-    visible: { opacity: 1, x: 0 },
-    exit: { opacity: 0, x: 10 },
-  };
-
   return (
-    <div className="flex flex-col gap-1 leading-tight font-bold tracking-wider md:h-20 lg:h-12">
-      {/* 🔧 Smaller Heading */}
-      <motion.div
-        initial={{ opacity: 0, y: -6 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 1 }}
-        className="text-[11px] sm:text-sm text-white font-semibold flex items-center gap-2"
-      >
+    <span className="flex flex-wrap">
+      {TITLE.split("").map((char, i) => (
         <motion.span
-          animate={{ rotate: [0, 20, -20, 0] }}
-          transition={{ duration: 3, repeat: Infinity }}
+          key={`${cycle}-${i}`}
+          style={{ color: GRADIENT_COLORS[i % GRADIENT_COLORS.length] }}
+          initial={{ opacity: 0, x: -30 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{
+            duration: 0.4,
+            delay: i * 0.05,
+            ease: "easeOut",
+          }}
+          className="inline-block text-[10px] font-extrabold sm:text-xs"
         >
-          <FaCode className="text-cyan-400  sm:text-3xl" />
+          {char === " " ? "\u00A0" : char}
         </motion.span>
-        <span className="bg-gradient-to-r from-cyan-400 via-blue-400 to-purple-400 bg-clip-text text-transparent text-[25px]">
-          {name}
-        </span>
-      </motion.div>
-
-      {/* 🔥 Enlarged Name */}
-      <AnimatePresence mode="wait">
-        {visible && (
-          <motion.div
-            key={cycleKey}
-            variants={container}
-            initial="hidden"
-            animate="visible"
-            exit="exit"
-            className=" text-[9px] sm:text-2xl md:text-3xl  flex gap-[2px] ml-10"
-            style={{ color: colors[colorIndex] }}
-          >
-            {heading.split("").map((char, i) => (
-              <motion.span key={i} variants={letter} className="text-[15px]">
-                {char}
-              </motion.span>
-            ))}
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </div>
+      ))}
+    </span>
   );
 }
 
-// 👉 Main Navbar Component
-function Navbar() {
-  const [isOpen, setIsOpen] = useState(false);
+const links = [
+  { to: "/",        label: "Home"    },
+  { to: "/about",   label: "About"   },
+  { to: "/skills",  label: "Skills"  },
+  { to: "/work",    label: "Work"    },
+  { to: "/contact", label: "Contact" },
+];
+
+export default function Navbar() {
+  const [isOpen,    setIsOpen]    = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [scrolled,  setScrolled]  = useState(false);
   const navigate = useNavigate();
 
-  const toggleMenu = () => setIsOpen(!isOpen);
-
-  const navStyle = ({ isActive }) =>
-    isActive
-      ? "text-cyan-400 border-b-2 border-cyan-400 pb-1"
-      : "hover:text-cyan-400";
+  useEffect(() => {
+    setIsLoggedIn(localStorage.getItem("isAuthenticated") === "true");
+  }, []);
 
   useEffect(() => {
-    const auth = localStorage.getItem("isAuthenticated");
-    setIsLoggedIn(auth === "true");
-  }, [localStorage.getItem("isAuthenticated")]);
+    const onScroll = () => setScrolled(window.scrollY > 18);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   const handleLogout = () => {
     localStorage.removeItem("isAuthenticated");
@@ -106,76 +74,132 @@ function Navbar() {
     navigate("/login");
   };
 
-  return (
-    <nav className="fixed top-0 left-0 w-full bg-[#1c1c2bcc] backdrop-blur-md text-white px-6 sm:px-8 py-5 shadow-lg z-50">
-      <div className="flex items-center justify-between">
-        {/* 👤 Logo & Name */}
-        <div className="flex flex-col">
-          <AnimatedName />
-        </div>
+  const navClass = ({ isActive }) =>
+    `rounded-full px-3 py-2 text-sm font-semibold transition-all duration-200 sm:px-4 ${
+      isActive
+        ? "bg-cyan-400 text-slate-950 shadow-[0_0_18px_rgba(34,211,238,0.4)]"
+        : "text-slate-300 hover:bg-white/8 hover:text-cyan-100"
+    }`;
 
-        {/* 💻 Desktop Menu */}
-        <ul className="hidden md:flex space-x-8 text-lg font-medium">
-          <li><NavLink to="/" className={navStyle}>Home</NavLink></li>
-          <li><NavLink to="/about" className={navStyle}>About</NavLink></li>
-          <li><NavLink to="/skills" className={navStyle}>Skills</NavLink></li>
-          <li><NavLink to="/work" className={navStyle}>Work</NavLink></li>
-          <li><NavLink to="/contact" className={navStyle}>Contact</NavLink></li>
-          {isLoggedIn && <li><NavLink to="/notes" className={navStyle}>Notes</NavLink></li>}
-          {isLoggedIn ? (
+  const menuLinks = isLoggedIn ? [...links, { to: "/notes", label: "Notes" }] : links;
+
+  return (
+    <motion.nav
+      initial={{ y: -28, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      transition={{ duration: 0.6, ease: "easeOut" }}
+      className="fixed left-0 top-0 z-50 w-full px-3 py-3 text-white sm:px-4 sm:py-4 md:px-8"
+    >
+      <motion.div
+        animate={{
+          boxShadow: scrolled
+            ? "0 16px 55px rgba(0,0,0,0.45), 0 0 28px rgba(0,240,255,0.07)"
+            : "0 16px 55px rgba(0,0,0,0.25)",
+          borderColor: scrolled ? "rgba(0,240,255,0.18)" : "rgba(255,255,255,0.08)",
+        }}
+        transition={{ duration: 0.35 }}
+        className="mx-auto flex max-w-7xl items-center justify-between rounded-2xl border bg-slate-950/80 px-3 py-2.5 backdrop-blur-xl sm:rounded-3xl sm:px-4 sm:py-3"
+      >
+        {/* Logo */}
+        <NavLink
+          to="/"
+          className="flex items-center gap-2.5 sm:gap-3"
+          onClick={() => setIsOpen(false)}
+        >
+          <motion.span
+            animate={{ rotate: [0, -8, 8, 0] }}
+            transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+            className="grid h-9 w-9 place-items-center rounded-xl bg-cyan-400 text-lg text-slate-950 shadow-[0_0_18px_rgba(34,211,238,0.45)] sm:h-11 sm:w-11 sm:rounded-2xl sm:text-xl"
+          >
+            <FiCode />
+          </motion.span>
+          <span className="leading-tight">
+            <span className="block text-sm font-black tracking-wide sm:text-base">Mayur Pawar</span>
+            <BouncingTitle />
+          </span>
+        </NavLink>
+
+        {/* Desktop links */}
+        <ul className="hidden items-center gap-1 md:flex">
+          {menuLinks.map((link) => (
+            <li key={link.to}>
+              <NavLink to={link.to} className={navClass}>
+                {link.label}
+              </NavLink>
+            </li>
+          ))}
+          {isLoggedIn && (
             <li>
               <button
                 onClick={handleLogout}
-                className="text-red-400 hover:text-red-600 font-semibold"
+                className="inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-semibold text-rose-300 transition hover:bg-rose-400/10"
               >
-                Logout
+                <FiLogOut /> Logout
               </button>
             </li>
-          ) : (
-            <>
-              {/* <li><NavLink to="/signup" className={navStyle}>Signup</NavLink></li>
-              <li><NavLink to="/login" className={navStyle}>Login</NavLink></li> */}
-            </>
           )}
         </ul>
 
-        {/* 📱 Toggle Mobile Menu */}
-        <div className="md:hidden text-2xl cursor-pointer" onClick={toggleMenu}>
-          {isOpen ? <FiX /> : <FiMenu />}
-        </div>
-      </div>
+        {/* Mobile hamburger */}
+        <button
+          type="button"
+          aria-label="Toggle navigation"
+          onClick={() => setIsOpen((v) => !v)}
+          className="grid h-9 w-9 place-items-center rounded-xl border border-white/8 bg-white/5 text-lg text-cyan-100 transition hover:border-cyan-300/28 hover:bg-white/10 md:hidden sm:h-11 sm:w-11 sm:rounded-2xl sm:text-xl"
+        >
+          <AnimatePresence mode="wait">
+            <motion.span
+              key={isOpen ? "x" : "menu"}
+              initial={{ rotate: -80, opacity: 0 }}
+              animate={{ rotate: 0, opacity: 1 }}
+              exit={{ rotate: 80, opacity: 0 }}
+              transition={{ duration: 0.18 }}
+            >
+              {isOpen ? <FiX /> : <FiMenu />}
+            </motion.span>
+          </AnimatePresence>
+        </button>
+      </motion.div>
 
-      {/* 📱 Mobile Menu Items */}
-      {isOpen && (
-        <ul className="md:hidden flex flex-col gap-4 mt-4 text-lg font-medium bg-[#1c1c2b] border-t border-gray-600 pt-4 pb-2 px-2">
-          <li><NavLink to="/" className={navStyle} onClick={toggleMenu}>Home</NavLink></li>
-          <li><NavLink to="/about" className={navStyle} onClick={toggleMenu}>About</NavLink></li>
-          <li><NavLink to="/skills" className={navStyle} onClick={toggleMenu}>Skills</NavLink></li>
-         <li><NavLink to="/work" className={navStyle} onClick={toggleMenu}>Work</NavLink></li>
-          <li><NavLink to="/contact" className={navStyle} onClick={toggleMenu}>Contact</NavLink></li>
-          {isLoggedIn && <li><NavLink to="/notes" className={navStyle} onClick={toggleMenu}>Notes</NavLink></li>}
-          {isLoggedIn ? (
-            <li>
-              <button
-                onClick={() => {
-                  handleLogout();
-                  toggleMenu();
-                }}
-                className="text-red-400 hover:text-red-600 font-semibold"
-              >
-                Logout
-              </button>
-            </li>
-          ) : (
-            <>
-              {/* <li><NavLink to="/signup" className={navStyle} onClick={toggleMenu}>Signup</NavLink></li>
-              <li><NavLink to="/login" className={navStyle} onClick={toggleMenu}>Login</NavLink></li> */}
-            </>
-          )}
-        </ul>
-      )}
-    </nav>
+      {/* Mobile dropdown */}
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div
+            initial={{ opacity: 0, y: -14, scale: 0.97 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: -14, scale: 0.97 }}
+            transition={{ duration: 0.2, ease: "easeOut" }}
+            className="mx-auto mt-2 max-w-7xl rounded-2xl border border-white/8 bg-slate-950/94 p-2.5 shadow-2xl backdrop-blur-xl md:hidden sm:rounded-3xl sm:p-3"
+          >
+            <div className="grid gap-1">
+              {menuLinks.map((link, i) => (
+                <motion.div
+                  key={link.to}
+                  initial={{ opacity: 0, x: -10 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: i * 0.045 }}
+                >
+                  <NavLink
+                    to={link.to}
+                    className={navClass}
+                    onClick={() => setIsOpen(false)}
+                  >
+                    {link.label}
+                  </NavLink>
+                </motion.div>
+              ))}
+              {isLoggedIn && (
+                <button
+                  onClick={() => { handleLogout(); setIsOpen(false); }}
+                  className="inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-semibold text-rose-300 transition hover:bg-rose-400/10"
+                >
+                  <FiLogOut /> Logout
+                </button>
+              )}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </motion.nav>
   );
 }
-
-export default Navbar;
